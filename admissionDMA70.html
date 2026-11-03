@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สถิติการสมัครเรียน DMA ปีการศึกษา 2570</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6efe7;--card:#fffaf4;--ink:#4a3628;--mut:#8c7260;--line:#e6d6c5;--acc:#b98b6a;--acc2:#d9b99b;--soft:#f0e2d3;--ok:#7f9c78;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#241b15;--card:#2f241c;--ink:#f1e3d4;--mut:#bba58f;--line:#4a3a2e;--acc:#d2a784;--acc2:#8d6a50;--soft:#3b2d23;--ok:#9db896}}
+:root[data-theme="dark"]{--bg:#241b15;--card:#2f241c;--ink:#f1e3d4;--mut:#bba58f;--line:#4a3a2e;--acc:#d2a784;--acc2:#8d6a50;--soft:#3b2d23;--ok:#9db896}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Prompt',system-ui,sans-serif;font-weight:400}
+.wrap{max-width:880px;margin:0 auto;padding:20px 16px 48px}
+header{background:linear-gradient(135deg,var(--acc2),var(--soft));border-radius:24px;padding:24px;margin-bottom:16px;border:1px solid var(--line)}
+header small{color:var(--mut);letter-spacing:.08em}
+h1{margin:4px 0 0;font-size:24px;font-weight:600}
+.tabs{display:flex;gap:6px;background:var(--soft);padding:5px;border-radius:999px;margin-bottom:16px}
+.tabs button{flex:1;border:0;background:none;color:var(--mut);font:inherit;padding:10px;border-radius:999px;cursor:pointer;font-weight:500}
+.tabs button.on{background:var(--card);color:var(--ink);box-shadow:0 2px 8px rgba(120,80,40,.15)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:14px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+label{font-size:13px;color:var(--mut);display:block;margin-bottom:4px}
+input[type=date]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:9px 12px}
+.grp{font-weight:600;margin:14px 0 6px;display:flex;justify-content:space-between;color:var(--acc)}
+.item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px 0;border-top:1px dashed var(--line)}
+.item b{font-weight:500}.item span{display:block;font-size:12px;color:var(--mut)}
+.step{display:flex;align-items:center;gap:6px}
+.step button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--soft);color:var(--ink);font-size:18px;cursor:pointer}
+.step input{width:64px;text-align:center;font:inherit;font-size:17px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:6px}
+.btn{font:inherit;border:0;background:var(--acc);color:#fff;padding:11px 22px;border-radius:999px;cursor:pointer;font-weight:500}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.msg{font-size:13px;color:var(--ok);margin-left:10px}
+.note{font-size:13px;color:var(--mut);margin:8px 0 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px}
+.stat .n{font-size:30px;font-weight:600;color:var(--acc)}.stat .l{font-size:12px;color:var(--mut)}
+.bar{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--acc2),var(--acc));border-radius:99px}
+.sr{padding:10px 0;border-top:1px dashed var(--line)}.sr .t{display:flex;justify-content:space-between;gap:8px}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
+th,td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--line)}th:first-child,td:first-child{text-align:left}th{color:var(--mut);font-weight:500}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><small>ADMISSION TRACKER · ปีการศึกษา 2570</small><h1>สถิติการสมัครเรียน สาขาดิจิทัลมีเดียอาร์ต</h1></header>
+<div class="tabs"><button id="t1" class="on">กรอกข้อมูลรายวัน</button><button id="t2">สรุปผล</button></div>
+
+<section id="p1">
+<div class="card">
+<div class="row"><div><label>วันที่</label><input type="date" id="d"></div>
+<div><button class="btn" id="save">บันทึก</button><span class="msg" id="msg"></span></div></div>
+<div id="form"></div>
+<p class="note" id="st"></p>
+</div>
+</section>
+
+<section id="p2" class="hide">
+<div class="card"><div class="row">
+<div><label>ตั้งแต่วันที่</label><input type="date" id="f"></div>
+<div><label>ถึงวันที่</label><input type="date" id="e"></div>
+<button class="btn ghost" id="all">ทั้งหมด</button>
+<button class="btn ghost" id="csv">ดาวน์โหลด CSV</button></div></div>
+<div class="stats" id="stats"></div>
+<div class="card"><b>แยกตามรายการ</b><div id="bars"></div></div>
+<div class="card"><b>แยกรายวัน</b><div class="scroll"><table id="tb"></table></div></div>
+</section>
+</div>
+
+<script>
+const G=[{g:"DMA-new",items:[
+["a1","4 ปี (ปกติ)","สะพานใหม่"],["a2","2 ปี (ปกติ)","สะพานใหม่"],["a3","2 ปี (สมทบ)","สะพานใหม่"],["a4","2 ปี (สมทบ)","นนทบุรี"]]},
+{g:"DMA-new Dual",items:[
+["b1","Dual - 4 ปี (ปกติ)","สะพานใหม่"],["b2","Dual - 2 ปี (ปกติ)","สะพานใหม่"],["b3","Dual - 2 ปี (สมทบ)","สะพานใหม่"],["b4","Dual - 2 ปี (สมทบ)","นนทบุรี"]]}];
+const ALL=G.flatMap(x=>x.items.map(i=>({k:i[0],g:x.g,n:i[1],c:i[2]})));
+const $=id=>document.getElementById(id);
+let days={},db=null,cur={};
+const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return z.toISOString().slice(0,10)};
+$('d').value=iso(new Date());
+const fmt=s=>{const[y,m,d]=s.split('-');return `${+d}/${+m}/${+y+543}`};
+const num=v=>Math.max(0,parseInt(v)||0);
+
+function loadCur(){cur={...(days[$('d').value]||{})};drawForm()}
+function drawForm(){
+ let h='';
+ G.forEach(x=>{const sub=x.items.reduce((s,i)=>s+num(cur[i[0]]),0);
+  h+=`<div class="grp"><span>${x.g}</span><span>รวม ${sub}</span></div>`;
+  x.items.forEach(i=>h+=`<div class="item"><div><b>${i[1]}</b><span>${i[2]}</span></div>
+  <div class="step"><button data-k="${i[0]}" data-s="-1">−</button><input type="number" min="0" inputmode="numeric" data-k="${i[0]}" value="${num(cur[i[0]])}"><button data-k="${i[0]}" data-s="1">+</button></div></div>`)});
+ $('form').innerHTML=h;
+ $('st').textContent=days[$('d').value]?'วันนี้มีข้อมูลที่บันทึกไว้แล้ว — การบันทึกจะเขียนทับ':'ยังไม่มีข้อมูลของวันนี้';
+}
+$('form').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const k=b.dataset.k;cur[k]=num(cur[k])+ +b.dataset.s;if(cur[k]<0)cur[k]=0;drawForm()});
+$('form').addEventListener('change',e=>{if(e.target.dataset.k){cur[e.target.dataset.k]=num(e.target.value);drawForm()}});
+$('d').onchange=loadCur;
+$('save').onclick=async()=>{
+ const date=$('d').value;if(!date)return;
+ const counts={};ALL.forEach(i=>counts[i.k]=num(cur[i.k]));
+ try{if(db)await db.collection('days').doc(date).set({date,counts});days[date]=counts;
+  $('msg').textContent=db?'บันทึกแล้ว ✓':'เก็บไว้ชั่วคราวในหน้านี้ (ยังไม่ได้เชื่อมฐานข้อมูล)';
+ }catch(err){$('msg').textContent='บันทึกไม่สำเร็จ: '+(err.message||err.code)}
+ drawForm();draw();setTimeout(()=>$('msg').textContent='',3500)};
+
+function range(){const f=$('f').value,e=$('e').value;return Object.keys(days).sort().filter(d=>(!f||d>=f)&&(!e||d<=e))}
+function draw(){
+ const ds=range(),tot={};ALL.forEach(i=>tot[i.k]=0);
+ ds.forEach(d=>ALL.forEach(i=>tot[i.k]+=num(days[d][i.k])));
+ const gs=G.map(x=>x.items.reduce((s,i)=>s+tot[i[0]],0)),sum=gs[0]+gs[1];
+ $('stats').innerHTML=[['ผู้สมัครรวม',sum],['DMA-new',gs[0]],['DMA-new Dual',gs[1]],['จำนวนวันที่มีข้อมูล',ds.length]].map(s=>`<div class="stat"><div class="n">${s[1]}</div><div class="l">${s[0]}</div></div>`).join('');
+ const mx=Math.max(1,...Object.values(tot));
+ $('bars').innerHTML=ALL.map(i=>`<div class="sr"><div class="t"><span>${i.g} · ${i.n} · ${i.c}</span><b>${tot[i.k]}</b></div><div class="bar"><i style="width:${tot[i.k]/mx*100}%"></i></div></div>`).join('');
+ $('tb').innerHTML=`<tr><th>วันที่</th><th>DMA-new</th><th>Dual</th><th>รวม</th></tr>`+
+  (ds.length?ds.map(d=>{const a=G[0].items.reduce((s,i)=>s+num(days[d][i[0]]),0),b=G[1].items.reduce((s,i)=>s+num(days[d][i[0]]),0);return `<tr><td>${fmt(d)}</td><td>${a}</td><td>${b}</td><td><b>${a+b}</b></td></tr>`}).join(''):'<tr><td colspan="4">ยังไม่มีข้อมูลในช่วงที่เลือก</td></tr>');
+}
+['f','e'].forEach(id=>$(id).onchange=draw);
+$('all').onclick=()=>{$('f').value='';$('e').value='';draw()};
+$('csv').onclick=async()=>{
+ const ds=range();let t='\ufeffวันที่,'+ALL.map(i=>`"${i.g} ${i.n} ${i.c}"`).join(',')+',รวม\n';
+ ds.forEach(d=>{const v=ALL.map(i=>num(days[d][i.k]));t+=d+','+v.join(',')+','+v.reduce((a,b)=>a+b,0)+'\n'});
+ try{const dl=await claude.use('downloads');if(dl)await dl.save({filename:'dma-2570-applicants.csv',data:t});else alert('ไม่สามารถดาวน์โหลดได้ในมุมมองนี้')}catch(e){}};
+
+function tab(n){$('p1').classList.toggle('hide',n!=1);$('p2').classList.toggle('hide',n!=2);$('t1').classList.toggle('on',n==1);$('t2').classList.toggle('on',n==2);if(n==2)draw()}
+$('t1').onclick=()=>tab(1);$('t2').onclick=()=>tab(2);
+
+loadCur();draw();
+(async()=>{
+ try{
+  const c=window.claude&&await claude.use('db');
+  if(!c){$('st').textContent='ยังไม่ได้เชื่อมฐานข้อมูล — ข้อมูลจะอยู่ชั่วคราวในหน้านี้เท่านั้น';return}
+  db=c;
+  db.collection('days').onSnapshot(s=>{const m={};s.docs.forEach(d=>{const v=d.data();if(v&&v.counts)m[d.id]=v.counts});days=m;
+   if(!Object.keys(cur).some(k=>cur[k]))loadCur();else drawForm();draw()},()=>{});
+ }catch(e){}
+})();
+</script>
+</body>
+</html>
